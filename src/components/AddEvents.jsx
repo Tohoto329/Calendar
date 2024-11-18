@@ -85,7 +85,7 @@ const AddEvents = ({ handleAddEvent, user, day = '', events }) => {
         if (Object.keys(errors).length === 0) {
             try {
                 const response = await axios.post(
-                    'http://localhost:5001/add-event',
+                    `${import.meta.env.VITE_API_URL}add-event`,
                     {
                         eventDate: eventDate.toISOString(),
                         startTime: new Date(startTime).toISOString(),

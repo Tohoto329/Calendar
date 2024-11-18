@@ -24,7 +24,7 @@ const Calendar = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await axios.get('http://localhost:5001/get-events', {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}get-events`, {
                 headers: {
                     'Authorization': `Bearer ${user}`,
                     'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ const Calendar = () => {
 
     const fetchGoogleEvents = async () => {
         try {
-            const response = await axios.get('http://localhost:5001/get-google-events', 
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}get-google-events`, 
             {
                 headers: {
                     'Authorization': `Bearer ${user}`,
@@ -81,7 +81,7 @@ const Calendar = () => {
     const handleSyncClick = async () => {
         await handleGoogleSync(!googlesync);
         try {
-            const response = await axios.get('http://localhost:5001/google-auth', {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}google-auth`, {
                 params:{
                     googlesync:!googlesync
                 },
@@ -207,7 +207,7 @@ const Calendar = () => {
     const debouncedSearch = useCallback(
         _.debounce((query) => {
           if (query) {
-            fetch(`http://localhost:5001/search?query=${query}`)
+            fetch(`${import.meta.env.VITE_API_URL}search?query=${query}`)
               .then(response => response.json())
               .then(data => {
                 setSuggestions(data.userData ? [data.userData] : []); 
