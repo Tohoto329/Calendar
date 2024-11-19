@@ -160,14 +160,20 @@ const Calendar = () => {
                                     const eventStartTime = new Date(event.start);
                                     const eventEndTime = new Date(event.end);
                                     return (
+                                        <>
                                         <div key={index} className={`event ${event.priority}`}>
                                             <p className='event-name'>{event.summary}</p>
-                                            {event.location && <p className='event-name'>{event.location}</p>}
-                                            <p className='event-time'>
-                                                {eventStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })} - 
-                                                {eventEndTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
+                                        </div>
+                                        <div className='event-date'>
+                                            <p>{event.summary}</p>
+                                            {event.location && <p>{event.location}</p>} 
+                                            <p>
+                                            {eventStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })} - 
+                                            {eventEndTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
                                             </p>
                                         </div>
+                                        </>
+
                                     );
                                 })}
                             </div>

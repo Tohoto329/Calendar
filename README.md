@@ -12,3 +12,7 @@ Follow these steps to get the project up and running:
 3.Run the project
 
   npm run dev
+
+
+create .env file:
+VITE_API_URL=http://localhost:3000/

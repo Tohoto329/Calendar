@@ -62,6 +62,8 @@ const Login = () => {
                     login(response.data.token);
                     handleGoogleSync(response.data.googleSync);
                     navigate('/dashboard');
+                }else{
+                    toast.error(response.data.message);
                 }
             }catch(err){
                 console.error(err);

@@ -666,3 +666,21 @@
   cursor: pointer;
 }
 
+.event:hover + .event-date, 
+.event-name:hover + .event-date { 
+    display: block;
+}
+
+.event-date {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color:#817e7e;
+  color: #fff;
+  padding: 5px;
+  font-size: 12px;
+  border-radius: 3px;
+  display: none;
+}
+
+
