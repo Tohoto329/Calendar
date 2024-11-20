@@ -13,6 +13,7 @@ const Calendar = () => {
     const [events, setEvents] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [suggestions, setSuggestions] = useState([]);
+    const [selectedEvent, setSelectedEvent] = useState(null);
 
     useEffect(() => {
         fetchEvents();
@@ -100,6 +101,11 @@ const Calendar = () => {
         }
     };
 
+    const handleEventClick = (event) => {
+        setSelectedEvent(event);
+        setAddEvent(true); 
+    };
+
     const getWeekDays = (date) => {
         const startOfWeek = new Date(date);
         startOfWeek.setDate(date.getDate() - date.getDay());
@@ -161,7 +167,7 @@ const Calendar = () => {
                                     const eventEndTime = new Date(event.end);
                                     return (
                                         <>
-                                        <div key={index} className={`event ${event.priority}`}>
+                                        <div key={index} className={`event ${event.priority}`} onClick={() => handleEventClick(event)}>
                                             <p className='event-name'>{event.summary}</p>
                                         </div>
                                         <div className='event-date'>
@@ -191,7 +197,6 @@ const Calendar = () => {
             <div className='hour-labels'>
                 {hours.map(hour => (
                     <div key={hour} className='hour-label'>
-                        {/* Format hour to 12-hour format */}
                         {new Date(2020, 1, 1, hour).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
                     </div>
                 ))}
@@ -306,7 +311,7 @@ const Calendar = () => {
                             </div>
                         ))}
                     </div>
-                    {showAddEvent && <AddEvents handleAddEvent={() => setAddEvent(false)} user={user} day={selectedDay} events={events}/>}
+                    {showAddEvent && <AddEvents handleAddEvent={() => setAddEvent(false)} user={user} day={selectedDay} event={selectedEvent} events={events} />}
                 </div>
             </div>
         </div>

@@ -672,8 +672,9 @@
 }
 
 .event-date {
+  z-index: 9999;
   position: absolute;
-  top: 5px;
+  top: 30px;
   right: 5px;
   background-color:#817e7e;
   color: #fff;
@@ -681,6 +682,18 @@
   font-size: 12px;
   border-radius: 3px;
   display: none;
+}
+
+.filter-priority{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-priority select{
+  height: 45px;
+  background-color: #fff;
+  color: #000;
 }
 
 

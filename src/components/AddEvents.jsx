@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const AddEvents = ({ handleAddEvent, user, day = '', events }) => {
+const AddEvents = ({ handleAddEvent, user, day = '', events, event }) => {
     const [eventDate, setEventDate] = useState(null);
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
@@ -13,16 +13,25 @@ const AddEvents = ({ handleAddEvent, user, day = '', events }) => {
     const [priority, setEventPriority] = useState('');
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState('');
+    const [event_id,setEventId] = useState('');
 
     const priorities = ['Select', 'High', 'Medium', 'Low'];
 
     useEffect(() => {
-        if (day) {
+        if (event) {
+            setEventDate(new Date(event.date));
+            setStartTime(new Date(event.start));
+            setEndTime(new Date(event.end));
+            setEventName(event.summary);
+            setEventPlace(event.location);
+            setEventPriority(event.priority);
+            setEventId(event._id ?? '');
+        } else if (day) {
             const formattedDate = new Date(day);
             setEventDate(formattedDate);
             setStartTime(formattedDate);
         }
-    }, [day]);
+    }, [day, event]);
 
     const checkEventOverlap = () => {
         for (let event of events) {
@@ -34,10 +43,10 @@ const AddEvents = ({ handleAddEvent, user, day = '', events }) => {
                 (endTime > eventStart && endTime <= eventEnd) ||
                 (startTime <= eventStart && endTime >= eventEnd)
             ) {
-                return true; // There is an overlap
+                return true; 
             }
         }
-        return false; // No overlap
+        return false;
     };
 
     const handleSubmit = async (e) => {
@@ -76,8 +85,10 @@ const AddEvents = ({ handleAddEvent, user, day = '', events }) => {
             }
         }
 
-        if (checkEventOverlap()) {
-            errors.eventTime = "Event is already scheduled in this slot.";
+        if(!event_id){
+            if (checkEventOverlap()) {
+                errors.eventTime = "Event is already scheduled in this slot.";
+            }
         }
     
         setErrors(errors);
@@ -92,7 +103,8 @@ const AddEvents = ({ handleAddEvent, user, day = '', events }) => {
                         endTime: new Date(endTime).toISOString(),
                         eventName: eventName,
                         eventPlace: eventPlace ?? '',
-                        priority: priority
+                        priority: priority,
+                        _id: event_id
                     },
                     {
                         headers: {
@@ -103,7 +115,8 @@ const AddEvents = ({ handleAddEvent, user, day = '', events }) => {
                 );
                 if (response.data.status) {
                     toast.success(response.data.message);
-                    handleAddEvent(); // Close or reset form
+                    handleAddEvent();
+                    location.reload();
                 } else {
                     toast.error(response.data.message);
                 }
